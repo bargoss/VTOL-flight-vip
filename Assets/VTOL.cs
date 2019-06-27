@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class VTOL : MonoBehaviour
 {
+    public ParticleSystem[] forwardBoostEffects;
+    public ParticleSystem[] verticalBoostEffects;
+
     float _verticalThrust;
     float _forwardThrust;
 
@@ -58,6 +61,7 @@ public class VTOL : MonoBehaviour
     {
         ExecuteInputs(Time.deltaTime);
         Forces();
+        UpdateEffects();
     }
     void Forces()
     {
@@ -68,7 +72,7 @@ public class VTOL : MonoBehaviour
         {
             Vector3 wingUp = transform.up;
             Vector3 verticalVelocityOnWing = Vector3.Project(-rigidbody.velocity, wingUp);
-            Vector3 liftForce = verticalVelocityOnWing * Time.deltaTime * 500;
+            Vector3 liftForce = verticalVelocityOnWing * Time.deltaTime * 100;
             Debug.DrawRay(transform.position + transform.forward * 0.1f, liftForce, Color.red, 0.1f);
             rigidbody.AddForce(liftForce);
         }
@@ -87,5 +91,24 @@ public class VTOL : MonoBehaviour
 
         rigidbody.AddForce(force * deltaTime * 60);
         rigidbody.AddTorque(torque * deltaTime * 60);
+    }
+    void UpdateEffects()
+    {
+        {
+            bool forwardBoosting = (ForwardThrust > 0.2f);
+            foreach (ParticleSystem ps in forwardBoostEffects)
+            {
+                ParticleSystem.EmissionModule emission = ps.emission;
+                emission.enabled = forwardBoosting;
+            }
+        }
+        {
+            bool verticalBoosting = (VerticalThrust > 0.2f);
+            foreach (ParticleSystem ps in verticalBoostEffects)
+            {
+                ParticleSystem.EmissionModule emission = ps.emission;
+                emission.enabled = verticalBoosting;
+            }
+        }
     }
 }
