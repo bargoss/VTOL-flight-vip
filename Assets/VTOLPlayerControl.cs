@@ -31,7 +31,7 @@ public class VTOLPlayerControl : MonoBehaviour
         verticalThrust = Input.GetAxis("Vertical");
         forwardThrust = Input.GetAxis("Forward");
 
-        pitch = Input.GetAxis("Mouse Y");
+        pitch = -Input.GetAxis("Mouse Y");
         yaw = Input.GetAxis("Horizontal");
         roll = -Input.GetAxis("Mouse X");
 
@@ -59,9 +59,9 @@ public class VTOLPlayerControl : MonoBehaviour
     }
     void CameraUpdate()
     {
-        Vector3 camrod = transform.forward * -5;
+        Vector3 camrod = transform.forward * -7;
         camrod.y = 0;
-        camera.transform.position = transform.position + camrod + Vector3.up * 2;
-        camera.transform.LookAt(transform.position + transform.forward * 3);
+        camera.transform.position = transform.position + camrod + Vector3.up * 3f;
+        camera.transform.LookAt(transform.position + transform.forward * 1);
     }
 }
