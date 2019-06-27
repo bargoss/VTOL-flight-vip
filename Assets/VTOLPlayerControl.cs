@@ -43,6 +43,18 @@ public class VTOLPlayerControl : MonoBehaviour
         vtol.Roll = roll;
 
         CameraUpdate();
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (Time.timeScale > 0.5f)
+            {
+                Time.timeScale = 0.1f;
+            }
+            else
+            {
+                Time.timeScale = 1;
+            }
+        }
     }
     
     void CameraUpdate2()
@@ -61,7 +73,7 @@ public class VTOLPlayerControl : MonoBehaviour
     {
         Vector3 camrod = transform.forward * -7;
         camrod.y = 0;
-        camera.transform.position = transform.position + camrod + Vector3.up * 3f;
+        camera.transform.position = transform.position + camrod + transform.up * 1.5f + Vector3.up * 1;
         camera.transform.LookAt(transform.position + transform.forward * 1);
     }
 }

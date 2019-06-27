@@ -57,8 +57,29 @@ public class VTOL : MonoBehaviour
     void Update()
     {
         ExecuteInputs(Time.deltaTime);
+        Forces();
     }
-
+    void Forces()
+    {
+        WingLift();
+    }
+    void WingLift()
+    {
+        {
+            Vector3 wingUp = transform.up;
+            Vector3 verticalVelocityOnWing = Vector3.Project(-rigidbody.velocity, wingUp);
+            Vector3 liftForce = verticalVelocityOnWing * Time.deltaTime * 500;
+            Debug.DrawRay(transform.position + transform.forward * 0.1f, liftForce, Color.red, 0.1f);
+            rigidbody.AddForce(liftForce);
+        }
+        {
+            Vector3 wingForward = transform.forward;
+            Vector3 forwardVelocityOnWing = Vector3.Project(rigidbody.velocity, transform.forward);
+            Vector3 liftForce = forwardVelocityOnWing.magnitude * transform.up * Time.deltaTime * 25;
+            Debug.DrawRay(transform.position, liftForce, Color.green, 0.1f);
+            rigidbody.AddForce(liftForce);
+        }
+    }
     void ExecuteInputs(float deltaTime)
     {
         Vector3 force = verticalForce * VerticalThrust * transform.up + forwardForce * ForwardThrust * transform.forward;
@@ -66,10 +87,5 @@ public class VTOL : MonoBehaviour
 
         rigidbody.AddForce(force * deltaTime * 60);
         rigidbody.AddTorque(torque * deltaTime * 60);
-    }
-
-    void SmoothInputs()
-    {
-
     }
 }
