@@ -73,13 +73,20 @@ public class VTOL : MonoBehaviour
             Vector3 wingUp = transform.up;
             Vector3 verticalVelocityOnWing = Vector3.Project(-rigidbody.velocity, wingUp);
             Vector3 liftForce = verticalVelocityOnWing * Time.deltaTime * 100;
-            Debug.DrawRay(transform.position + transform.forward * 0.1f, liftForce, Color.red, 0.1f);
+            Debug.DrawRay(transform.position + transform.forward * 0.1f, liftForce, Color.red, 0.1f * 0.5f);
             rigidbody.AddForce(liftForce);
         }
         {
             Vector3 wingForward = transform.forward;
             Vector3 forwardVelocityOnWing = Vector3.Project(rigidbody.velocity, transform.forward);
-            Vector3 liftForce = forwardVelocityOnWing.magnitude * transform.up * Time.deltaTime * 25;
+            Vector3 liftForce = forwardVelocityOnWing.magnitude * transform.up * Time.deltaTime * 25 * 0.5f;
+            Debug.DrawRay(transform.position, liftForce, Color.green, 0.1f);
+            rigidbody.AddForce(liftForce);
+        }
+        {
+            Vector3 wingRight = transform.right;
+            Vector3 rightVelocityOnWing = Vector3.Project(rigidbody.velocity, transform.right);
+            Vector3 liftForce = -rightVelocityOnWing.magnitude * transform.right * Time.deltaTime * 12.5f * 0.5f;
             Debug.DrawRay(transform.position, liftForce, Color.green, 0.1f);
             rigidbody.AddForce(liftForce);
         }
